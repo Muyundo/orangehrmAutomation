@@ -15,4 +15,4 @@ jobs:
               run: npm ci
 
             - name: Run Cypress test
-              run: npm test
+              run: npx cypress open
