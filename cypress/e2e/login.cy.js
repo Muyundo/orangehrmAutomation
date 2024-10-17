@@ -1,10 +1,7 @@
 describe('Log into orage hrm',()=>{
     it('Login successfully',()=>{
-
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-        cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input').type('Admin')
-        cy.get(':nth-child(3) > .oxd-input-group > :nth-child(2) > .oxd-input').type('admin123')
-        cy.get('.oxd-button').click()
+        cy.wisit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+        cy.login('Admin', 'Admin123')        
         cy.url().should('include', '/dashboard')
     })
 
