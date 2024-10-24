@@ -29,7 +29,7 @@ jobs:
         run: npx cypress run --browser ${{ matrix.browser }} --headless
 
       - name: Upload Cypress results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-results
           path: cypress/videos/ # Upload videos
