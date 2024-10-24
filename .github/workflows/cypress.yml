@@ -1,18 +1,35 @@
-on: push
+name: CI Pipeline
+
+on: [push]
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+  build:
+    runs-on: ubuntu-latest
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
-              with:
-                node-version: '20.17.0'
+    strategy:
+      matrix:
+        browser: [chrome, firefox] # Run tests in both Chrome and Firefox
 
-            - name: Install dependencies
-              run: npm ci
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Run Cypress test
-              run: npm test
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.17.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Cypress
+        run: npm install cypress --save-dev
+
+      - name: Run Cypress tests on ${{ matrix.browser }} # Runs tests in parallel for each browser
+        run: npx cypress run --browser ${{ matrix.browser }} --headless
+
+      - name: Upload Cypress results
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-results
+          path: cypress/videos/ # Upload videos
